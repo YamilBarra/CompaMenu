@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="CompaMenu: menús económicos cerca de tu universidad en Cusco">
+<title>Inicio | CompaMenu</title>
+<!-- Fuente Alfa Slab One de Google Fonts (licencia OFL) para los títulos -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap">
+<!-- Nuestros estilos -->
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<!-- Barra de navegación -->
+<header class="cabecera">
+  <a href="index.html" class="logo">Compa<span>Menu</span></a>
+  <button class="btn-menu" id="btnMenu" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  <nav class="nav" id="nav">
+    <a href="index.html" aria-current="page">Inicio</a>
+    <a href="remate.html">Remate solidario</a>
+    <a href="panel.html">Mi local</a>
+    <a href="resenas.html">Reseñas</a>
+    <a href="proyecto.html">Proyecto</a>
+    <button class="btn btn-borde" id="btnIngresar">Ingresar</button>
+  </nav>
+</header>
+
+<!-- Contenido principal de la página -->
+<main>
+<!-- Portada con el buscador de menús -->
+<section class="portada">
+  <div class="portada-interior">
+    <div class="portada-texto">
+      <h1>Almuerza bien sin pasarte de tu presupuesto</h1>
+      <p>Encuentra el menú del día en las pensiones y comedores cercanos a tu campus, con precio, distancia y opiniones de otros estudiantes.</p>
+      <div class="portada-datos">
+        <div><strong>S/. 6 – 8</strong><span>menús del día</span></div>
+        <div><strong id="contadorLocales">0</strong><span>locales registrados</span></div>
+        <div><strong id="contadorRemates">0</strong><span>remates ahora</span></div>
+      </div>
+      <div class="portada-botones">
+        <a class="btn btn-principal" href="remate.html">Ver remates de hoy</a>
+        <a class="btn btn-borde" href="resenas.html">Leer reseñas</a>
+      </div>
+    </div>
+    <!-- Filtros: precio máximo, tipo de plato, distancia y nombre -->
+    <form class="buscador" id="buscador" aria-label="Buscador de menús">
+      <h2>¿Cuánto tienes para hoy?</h2>
+      <label for="precio">Precio máximo: <output id="precioValor">S/. 7.50</output></label>
+      <input type="range" id="precio" min="4" max="12" step="0.5" value="7.5">
+      <label for="tipo">Tipo de plato</label>
+      <select id="tipo">
+        <option value="todos">Todos</option>
+        <option value="criollo">Criollo</option>
+        <option value="andino">Andino</option>
+        <option value="vegetariano">Vegetariano</option>
+        <option value="proteico">Alto en proteínas</option>
+      </select>
+      <label for="distancia">Distancia al campus</label>
+      <select id="distancia">
+        <option value="999999">Cualquiera</option>
+        <option value="200">Hasta 200 m</option>
+        <option value="500">Hasta 500 m</option>
+        <option value="1000">Hasta 1 km</option>
+      </select>
+      <label for="texto">Buscar por nombre</label>
+      <input type="search" id="texto" placeholder="Ej: lomo saltado">
+      <button type="button" class="btn btn-principal" id="btnLimpiar">Limpiar filtros</button>
+    </form>
+  </div>
+</section>
+
+<section class="seccion" aria-labelledby="tituloResultados">
+  <div class="seccion-cabecera">
+    <h2 id="tituloResultados">Menús disponibles</h2>
+    <p id="resumen" aria-live="polite"></p>
+  </div>
+  <!-- Aquí JavaScript dibuja las tarjetas de los menús -->
+  <div class="rejilla" id="resultados"></div>
+</section>
+
+<!-- Invitación para los dueños de locales -->
+<section class="franja cta" aria-labelledby="tituloCta">
+  <div class="seccion-cabecera">
+    <h2 id="tituloCta">¿Tienes un local cerca del campus?</h2>
+    <p>Publica tu menú del día y los remates de la tarde para que los estudiantes te encuentren.</p>
+    <a class="btn btn-principal" href="panel.html">Administrar mi local</a>
+  </div>
+</section>
+</main>
+
+<!-- Pie de página -->
+<footer class="pie">
+  <p class="pie-lema">Cultura peruana en cada plato</p>
+  <p>CompaMenu · Programación Web · NRC 39578 · Cusco, Perú · 2026</p>
+</footer>
+
+<!-- Ventana emergente para ingresar o crear cuenta (solo diseño) -->
+<dialog id="modalIngreso" class="modal">
+  <form method="dialog" class="modal-cuerpo" id="formIngreso">
+    <div class="modal-pestanas">
+      <button type="button" class="pestana activa" data-modo="ingreso">Ingresar</button>
+      <button type="button" class="pestana" data-modo="registro">Crear cuenta</button>
+    </div>
+    <div id="campoNombre" hidden>
+      <label for="ingNombre">Nombre completo</label>
+      <input type="text" id="ingNombre">
+    </div>
+    <label for="ingCorreo">Correo</label>
+    <input type="email" id="ingCorreo" required>
+    <label for="ingClave">Contraseña</label>
+    <input type="password" id="ingClave" minlength="6" required>
+    <p class="aviso" id="avisoIngreso" role="status"></p>
+    <div class="modal-botones">
+      <button type="button" class="btn btn-borde oscuro" id="btnCerrar">Cancelar</button>
+      <button type="submit" class="btn btn-principal" id="btnEnviarIngreso">Ingresar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Primero cargamos los datos y después la lógica -->
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

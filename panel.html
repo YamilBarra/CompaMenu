@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Administra los menús de tu local">
+<title>Mi local | CompaMenu</title>
+<!-- Fuente Alfa Slab One de Google Fonts (licencia OFL) para los títulos -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap">
+<!-- Nuestros estilos -->
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<!-- Barra de navegación -->
+<header class="cabecera">
+  <a href="index.html" class="logo">Compa<span>Menu</span></a>
+  <button class="btn-menu" id="btnMenu" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Inicio</a>
+    <a href="remate.html">Remate solidario</a>
+    <a href="panel.html" aria-current="page">Mi local</a>
+    <a href="resenas.html">Reseñas</a>
+    <a href="proyecto.html">Proyecto</a>
+    <button class="btn btn-borde" id="btnIngresar">Ingresar</button>
+  </nav>
+</header>
+
+<!-- Contenido principal de la página -->
+<main>
+<section class="encabezado-pagina">
+  <div class="encabezado-interior">
+    <h1>Mi local: administra tus menús</h1>
+    <p>Agrega, edita o elimina los platos que se muestran a los estudiantes. Los cambios se ven al instante en la página de inicio.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="panel-contenedor">
+    <!-- Formulario del CRUD: sirve para crear y editar menús. El enctype permite subir la foto -->
+    <form class="form-panel" id="formMenu" enctype="multipart/form-data" novalidate>
+      <h3 id="tituloForm">Nuevo menú</h3>
+      <label for="menuNombre">Nombre del plato</label>
+      <input type="text" id="menuNombre" name="nombre" maxlength="60" placeholder="Ej: Ají de gallina con arroz">
+      <label for="menuLocal">Local</label>
+      <input type="text" id="menuLocal" name="local" maxlength="40" list="listaLocales" placeholder="Ej: Comedor Inti">
+      <datalist id="listaLocales"></datalist>
+      <div class="fila-doble">
+        <div>
+          <label for="menuPrecio">Precio (S/.)</label>
+          <input type="number" id="menuPrecio" name="precio" min="1" max="30" step="0.5" inputmode="decimal">
+        </div>
+        <div>
+          <label for="menuDistancia">Distancia (m)</label>
+          <input type="number" id="menuDistancia" name="distancia" min="0" max="5000" step="10" inputmode="numeric">
+        </div>
+      </div>
+      <label for="menuTipo">Tipo de plato</label>
+      <select id="menuTipo" name="tipo">
+        <option value="criollo">Criollo</option>
+        <option value="andino">Andino</option>
+        <option value="vegetariano">Vegetariano</option>
+        <option value="proteico">Alto en proteínas</option>
+      </select>
+      <label for="menuFoto">Foto del plato</label>
+      <!-- Campo para subir la foto (en PHP llegará en $_FILES["foto"]) -->
+      <input type="file" id="menuFoto" name="foto" accept="image/jpeg,image/png,image/webp">
+      <div class="foto vista-previa" id="vistaPrevia"></div>
+      <button type="button" class="btn btn-borde oscuro btn-chico" id="btnQuitarFoto" hidden>Quitar foto</button>
+      <p class="aviso" id="avisoMenu" role="status"></p>
+      <div class="botones-form">
+        <button type="button" class="btn btn-borde oscuro" id="btnCancelarEdicion" hidden>Cancelar</button>
+        <button type="submit" class="btn btn-principal" id="btnGuardarMenu">Agregar menú</button>
+      </div>
+    </form>
+
+    <!-- Tabla de menús registrados (READ) con los botones Editar y Eliminar -->
+    <div class="tabla-caja">
+      <p class="tabla-resumen" id="resumenTabla" aria-live="polite"></p>
+      <table class="tabla">
+        <thead>
+          <tr><th>Foto</th><th>Plato</th><th>Local</th><th>Precio</th><th>Acciones</th></tr>
+        </thead>
+        <tbody id="cuerpoTabla"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Ventana para confirmar antes de eliminar un menú -->
+<dialog id="modalEliminar" class="modal">
+  <div class="modal-cuerpo">
+    <h3>¿Eliminar este menú?</h3>
+    <p id="textoEliminar"></p>
+    <div class="modal-botones">
+      <button type="button" class="btn btn-borde oscuro" id="btnNoEliminar">Cancelar</button>
+      <button type="button" class="btn btn-peligro" id="btnSiEliminar">Eliminar</button>
+    </div>
+  </div>
+</dialog>
+</main>
+
+<!-- Pie de página -->
+<footer class="pie">
+  <p class="pie-lema">Cultura peruana en cada plato</p>
+  <p>CompaMenu · Programación Web · NRC 39578 · Cusco, Perú · 2026</p>
+</footer>
+
+<!-- Ventana emergente para ingresar o crear cuenta (solo diseño) -->
+<dialog id="modalIngreso" class="modal">
+  <form method="dialog" class="modal-cuerpo" id="formIngreso">
+    <div class="modal-pestanas">
+      <button type="button" class="pestana activa" data-modo="ingreso">Ingresar</button>
+      <button type="button" class="pestana" data-modo="registro">Crear cuenta</button>
+    </div>
+    <div id="campoNombre" hidden>
+      <label for="ingNombre">Nombre completo</label>
+      <input type="text" id="ingNombre">
+    </div>
+    <label for="ingCorreo">Correo</label>
+    <input type="email" id="ingCorreo" required>
+    <label for="ingClave">Contraseña</label>
+    <input type="password" id="ingClave" minlength="6" required>
+    <p class="aviso" id="avisoIngreso" role="status"></p>
+    <div class="modal-botones">
+      <button type="button" class="btn btn-borde oscuro" id="btnCerrar">Cancelar</button>
+      <button type="submit" class="btn btn-principal" id="btnEnviarIngreso">Ingresar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Primero cargamos los datos y después la lógica -->
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

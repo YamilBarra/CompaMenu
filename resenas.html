@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Opiniones de estudiantes sobre porciones, higiene y atención">
+<title>Reseñas | CompaMenu</title>
+<!-- Fuente Alfa Slab One de Google Fonts (licencia OFL) para los títulos -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap">
+<!-- Nuestros estilos -->
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<!-- Barra de navegación -->
+<header class="cabecera">
+  <a href="index.html" class="logo">Compa<span>Menu</span></a>
+  <button class="btn-menu" id="btnMenu" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  <nav class="nav" id="nav">
+    <a href="index.html">Inicio</a>
+    <a href="remate.html">Remate solidario</a>
+    <a href="panel.html">Mi local</a>
+    <a href="resenas.html" aria-current="page">Reseñas</a>
+    <a href="proyecto.html">Proyecto</a>
+    <button class="btn btn-borde" id="btnIngresar">Ingresar</button>
+  </nav>
+</header>
+
+<!-- Contenido principal de la página -->
+<main>
+<section class="encabezado-pagina">
+  <div class="encabezado-interior">
+    <h1>Lo que dicen los estudiantes</h1>
+    <p>Opiniones sobre porciones, higiene y atención.</p>
+  </div>
+</section>
+
+<section class="seccion">
+  <div class="val-contenedor">
+    <!-- Aquí JavaScript dibuja las reseñas -->
+    <div class="lista-val" id="listaVal"></div>
+    <!-- Formulario para dejar una reseña -->
+    <form class="form-val" id="formVal">
+      <h3>Deja tu reseña</h3>
+      <label for="valLocal">Local</label>
+      <select id="valLocal"></select>
+      <label for="valNombre">Tu nombre</label>
+      <input type="text" id="valNombre" maxlength="30" required>
+      <label for="valPuntaje">Puntaje</label>
+      <select id="valPuntaje">
+        <option value="5">5 estrellas</option>
+        <option value="4">4 estrellas</option>
+        <option value="3">3 estrellas</option>
+        <option value="2">2 estrellas</option>
+        <option value="1">1 estrella</option>
+      </select>
+      <label for="valTexto">Comentario</label>
+      <textarea id="valTexto" rows="3" maxlength="150" required></textarea>
+      <button class="btn btn-principal" type="submit">Publicar reseña</button>
+      <p class="aviso" id="avisoVal" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- Pie de página -->
+<footer class="pie">
+  <p class="pie-lema">Cultura peruana en cada plato</p>
+  <p>CompaMenu · Programación Web · NRC 39578 · Cusco, Perú · 2026</p>
+</footer>
+
+<!-- Ventana emergente para ingresar o crear cuenta (solo diseño) -->
+<dialog id="modalIngreso" class="modal">
+  <form method="dialog" class="modal-cuerpo" id="formIngreso">
+    <div class="modal-pestanas">
+      <button type="button" class="pestana activa" data-modo="ingreso">Ingresar</button>
+      <button type="button" class="pestana" data-modo="registro">Crear cuenta</button>
+    </div>
+    <div id="campoNombre" hidden>
+      <label for="ingNombre">Nombre completo</label>
+      <input type="text" id="ingNombre">
+    </div>
+    <label for="ingCorreo">Correo</label>
+    <input type="email" id="ingCorreo" required>
+    <label for="ingClave">Contraseña</label>
+    <input type="password" id="ingClave" minlength="6" required>
+    <p class="aviso" id="avisoIngreso" role="status"></p>
+    <div class="modal-botones">
+      <button type="button" class="btn btn-borde oscuro" id="btnCerrar">Cancelar</button>
+      <button type="submit" class="btn btn-principal" id="btnEnviarIngreso">Ingresar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Primero cargamos los datos y después la lógica -->
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
