@@ -13,7 +13,7 @@
 
 **Proyecto del curso Programación Web · Universidad Continental · NRC 39578 · Grupo 03**
 
-<img src="docs/capturas/01-inicio-escritorio.png" alt="Página de inicio de CompaMenu" width="900">
+<img src="docs/capturas/Figura-01-Inicio-con-buscador.png" alt="Página de inicio de CompaMenu" width="900">
 
 </div>
 
@@ -68,71 +68,83 @@
 
 ## Capturas de pantalla
 
-### Vista pública
+### Navegación pública
 
-**Inicio con filtros y menús disponibles**
+**Figura 01.** Inicio con buscador y filtros.
 
-<img src="docs/capturas/01-inicio-escritorio.png" alt="Inicio en escritorio" width="900">
+<img src="docs/capturas/Figura-01-Inicio-con-buscador.png" alt="Figura 01: Inicio con buscador" width="900">
 
-**Inicio en móvil y menú de navegación desplegado**
+**Figura 02 y 03.** Inicio en celular y menú desplegable.
 
 <p>
-  <img src="docs/capturas/02-inicio-movil.png" alt="Inicio en móvil" width="260">
+  <img src="docs/capturas/Figura-02-Inicio-en-celular.png" alt="Figura 02: Inicio en celular" width="260">
   &nbsp;&nbsp;
-  <img src="docs/capturas/03-menu-movil.png" alt="Menú de navegación móvil" width="300">
+  <img src="docs/capturas/Figura-03-Menu-desplegable-celular.png" alt="Figura 03: Menú desplegable en celular" width="300">
 </p>
 
-**Detalle de un menú**
+**Figura 04.** Detalle de un menú.
 
-<img src="docs/capturas/04-detalle-menu.png" alt="Detalle de un menú" width="900">
-
-**Remate solidario**
-
-<img src="docs/capturas/05-remate-solidario.png" alt="Remate solidario" width="900">
-
-**Reseñas de estudiantes**
-
-<img src="docs/capturas/06-resenas.png" alt="Reseñas" width="900">
+<img src="docs/capturas/Figura-04-Detalle-de-un-menu.png" alt="Figura 04: Detalle de un menú" width="900">
 
 ### Autenticación
 
+**Figura 05 y 06.** Ingreso y registro.
+
 <p>
-  <img src="docs/capturas/07-ingresar.png" alt="Ingresar" width="440">
+  <img src="docs/capturas/Figura-05-Ingreso.png" alt="Figura 05: Ingreso" width="440">
   &nbsp;
-  <img src="docs/capturas/08-crear-cuenta.png" alt="Crear cuenta" width="440">
+  <img src="docs/capturas/Figura-06-Registro.png" alt="Figura 06: Registro" width="440">
 </p>
+
+### Experiencia del estudiante
+
+**Figura 07.** Formulario de reserva.
+
+<img src="docs/capturas/Figura-07-Formulario-de-reserva.png" alt="Figura 07: Formulario de reserva" width="900">
+
+**Figura 08.** Mis reservas.
+
+<img src="docs/capturas/Figura-08-Mis-reservas-estudiante.png" alt="Figura 08: Mis reservas del estudiante" width="900">
+
+**Figura 09.** Reseñas de estudiantes.
+
+<img src="docs/capturas/Figura-09-Resenas.png" alt="Figura 09: Reseñas" width="900">
+
+**Figura 10.** Remate solidario.
+
+<img src="docs/capturas/Figura-10-Remate-solidario.png" alt="Figura 10: Remate solidario" width="900">
 
 ### Panel del dueño de local
 
-**Gestión de menús (nuevo menú)**
+**Figura 11.** Gestión de menús.
 
-<img src="docs/capturas/09-local-menus.png" alt="Panel del local: menús" width="900">
+<img src="docs/capturas/Figura-11-Panel-Mi-local-menus.png" alt="Figura 11: Panel Mi local, menús" width="900">
 
-**Edición de un menú**
+**Figura 12.** Edición de un menú.
 
-<img src="docs/capturas/10-local-editar-menu.png" alt="Panel del local: editar menú" width="900">
+<img src="docs/capturas/Figura-12-Panel-editar-menu.png" alt="Figura 12: Editar menú" width="900">
 
-**Remates del local**
+**Figura 13.** Remates del local.
 
-<img src="docs/capturas/11-local-remates.png" alt="Panel del local: remates" width="900">
+<img src="docs/capturas/Figura-13-Panel-remates.png" alt="Figura 13: Remates" width="900">
 
-**Reservas recibidas**
+**Figura 14.** Reservas recibidas.
 
-<img src="docs/capturas/12-local-reservas.png" alt="Panel del local: reservas" width="900">
+<img src="docs/capturas/Figura-14-Panel-reservas-recibidas.png" alt="Figura 14: Reservas recibidas" width="900">
 
-**Confirmación antes de eliminar**
+**Figura 15.** Confirmación antes de eliminar.
 
-<img src="docs/capturas/13-local-confirmar-eliminar.png" alt="Confirmación de eliminación" width="900">
+<img src="docs/capturas/Figura-15-Confirmacion-al-eliminar.png" alt="Figura 15: Confirmación al eliminar" width="900">
 
 ### Panel de administración
 
-**Resumen general**
+**Figura 16.** Resumen general.
 
-<img src="docs/capturas/14-admin-resumen.png" alt="Administración: resumen" width="900">
+<img src="docs/capturas/Figura-16-Administracion-resumen.png" alt="Figura 16: Administración, resumen" width="900">
 
-**Gestión de usuarios**
+**Figura 17.** Gestión de usuarios.
 
-<img src="docs/capturas/15-admin-usuarios.png" alt="Administración: usuarios" width="900">
+<img src="docs/capturas/Figura-17-Administracion-usuarios.png" alt="Figura 17: Administración, usuarios" width="900">
 
 ---
 
