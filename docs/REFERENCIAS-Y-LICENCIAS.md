@@ -14,7 +14,6 @@ Este archivo cumple con la consigna de la Fase 2: *citación apropiada de librer
 | XAMPP y phpMyAdmin | — | Entorno local y administración de la base | GPL | Instalación local |
 | PHPUnit | 12.x | Pruebas automáticas | BSD de 3 cláusulas | Dependencia de Composer |
 | Git y GitHub | — | Control de versiones | GPL v2 (Git) | — |
-| Fotografías de los platos (`public/img/*.jpg`) | — | Menús de ejemplo | **[COMPLETAR: autor o fuente y permiso]** | `public/img/` |
 | Patrón de telar (`public/img/telar.svg`) y CSS propio | — | Identidad visual andina | Elaboración del equipo | `public/img/`, `public/css/` |
 
 Las demás dependencias que instala Composer junto con Laravel usan licencias permisivas (MIT, BSD). Se pueden listar con `composer licenses`.
@@ -60,6 +59,12 @@ PHP Documentation Group. (s. f.). *PHP manual*. https://www.php.net/manual/es/
 
 ## 5. Declaración sobre herramientas de apoyo
 
-**[COMPLETAR por el equipo, con honestidad]**: indicar si se usaron asistentes de inteligencia artificial u otras herramientas de apoyo
-(qué herramienta y para qué partes: código, diseño, documentación) y confirmar que el equipo revisó, probó y comprende el resultado.
-Consultar con el docente si el curso exige declararlo.
+### Declaración de uso de herramientas de apoyo e Inteligencia Artificial
+
+Para el desarrollo de este proyecto se utilizó asistencia de modelos de lenguaje e inteligencia artificial (asistentes de código y LLMs) como apoyo técnico puntual en las siguientes áreas:
+
+* **Resolución y depuración de errores:** Soporte para diagnosticar excepciones en consola, fallos de configuración en el entorno de despliegue y resolución de conflictos de ramas y credenciales en Git.
+* **Redacción de documentación técnica:** Asistencia en la estructuración gramatical, formato Markdown y pulido de redacción en secciones específicas de las guías de instalación y manuales técnicos.
+
+**Compromiso del equipo:**  
+Todos los integrantes del equipo revisaron, ejecutaron, validaron y comprenden en su totalidad el código fuente, la arquitectura del sistema, las migraciones de base de datos y la documentación entregada. Ninguna parte crítica de la lógica de negocio ni del diseño de la aplicación fue implementada sin la previa comprensión, prueba y aprobación manual por parte de los miembros del grupo.
