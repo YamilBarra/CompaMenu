@@ -18,17 +18,17 @@
 
   {{-- Tarjetas de métricas --}}
   <div class="metricas">
-    <div class="metrica"><i class="metrica-icono" aria-hidden="true">🎓</i><strong>{{ $metricas['estudiantes'] }}</strong><span>Estudiantes registrados</span></div>
-    <div class="metrica"><i class="metrica-icono" aria-hidden="true">🏪</i><strong>{{ $metricas['establecimientos'] }}</strong><span>Establecimientos</span></div>
-    <div class="metrica"><i class="metrica-icono" aria-hidden="true">🍽️</i><strong>{{ $metricas['menus'] }}</strong><span>Menús publicados</span></div>
-    <div class="metrica"><i class="metrica-icono" aria-hidden="true">🏷️</i><strong>{{ $metricas['remates'] }}</strong><span>Remates publicados</span></div>
-    <div class="metrica"><i class="metrica-icono" aria-hidden="true">💬</i><strong>{{ $metricas['valoraciones'] }}</strong><span>Valoraciones</span></div>
+    <div class="metrica">@include('admin._icono', ['nombre' => 'estudiantes'])<strong>{{ $metricas['estudiantes'] }}</strong><span>Estudiantes registrados</span></div>
+    <div class="metrica">@include('admin._icono', ['nombre' => 'establecimientos'])<strong>{{ $metricas['establecimientos'] }}</strong><span>Establecimientos</span></div>
+    <div class="metrica">@include('admin._icono', ['nombre' => 'menus'])<strong>{{ $metricas['menus'] }}</strong><span>Menús publicados</span></div>
+    <div class="metrica">@include('admin._icono', ['nombre' => 'remates'])<strong>{{ $metricas['remates'] }}</strong><span>Remates publicados</span></div>
+    <div class="metrica">@include('admin._icono', ['nombre' => 'valoraciones'])<strong>{{ $metricas['valoraciones'] }}</strong><span>Valoraciones</span></div>
     <div class="metrica">
-      <i class="metrica-icono" aria-hidden="true">⭐</i><strong>{{ $metricas['promedio'] ?: '—' }}</strong><span>Promedio de estrellas</span>
+      @include('admin._icono', ['nombre' => 'promedio'])<strong>{{ $metricas['promedio'] ?: '—' }}</strong><span>Promedio de estrellas</span>
       <span class="metrica-estrellas" role="img" aria-label="{{ $promedio }} de 5 estrellas"><span style="width: {{ round($promedio / 5 * 100) }}%">★★★★★</span>★★★★★</span>
     </div>
-    <div class="metrica"><i class="metrica-icono" aria-hidden="true">🧾</i><strong>{{ $metricas['reservas'] }}</strong><span>Reservas</span></div>
-    <div class="metrica @if ($metricas['pendientes'] > 0) metrica-alerta @endif"><i class="metrica-icono" aria-hidden="true">⏳</i><strong>{{ $metricas['pendientes'] }}</strong><span>Reservas pendientes</span></div>
+    <div class="metrica">@include('admin._icono', ['nombre' => 'reservas'])<strong>{{ $metricas['reservas'] }}</strong><span>Reservas</span></div>
+    <div class="metrica @if ($metricas['pendientes'] > 0) metrica-alerta @endif">@include('admin._icono', ['nombre' => 'pendientes'])<strong>{{ $metricas['pendientes'] }}</strong><span>Reservas pendientes</span></div>
   </div>
 
   {{-- Gráficos de reservas --}}

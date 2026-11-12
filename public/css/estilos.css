@@ -519,10 +519,10 @@ input[type="file"] { padding: 8px; }
 
 /* Administración */
 .metricas { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; }
-.metrica { background: var(--blanco); border: 1px solid var(--borde); border-top: 6px solid var(--rojo); border-radius: 14px; padding: 16px; }
-.metrica:nth-child(4n+2) { border-top-color: var(--maiz); }
-.metrica:nth-child(4n+3) { border-top-color: var(--turquesa); }
-.metrica:nth-child(4n) { border-top-color: var(--magenta); }
+.metrica { --acento: var(--rojo); background: var(--blanco); border: 1px solid var(--borde); border-top: 6px solid var(--acento); border-radius: 14px; padding: 16px; }
+.metrica:nth-child(4n+2) { --acento: var(--maiz); }
+.metrica:nth-child(4n+3) { --acento: var(--turquesa); }
+.metrica:nth-child(4n) { --acento: var(--magenta); }
 .metrica strong { display: block; font-family: var(--titulo); font-weight: 400; font-size: 2rem; color: var(--rojo-oscuro); line-height: 1.1; }
 .metrica span { color: var(--gris); font-size: 0.92rem; }
 .dos-columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
@@ -532,10 +532,10 @@ input[type="file"] { padding: 8px; }
 
 /* Gráficos del resumen del administrador (SVG y CSS, sin librerías) */
 .metrica { position: relative; }
-.metrica-icono { position: absolute; top: 12px; right: 14px; font-style: normal; font-size: 1.5rem; opacity: 0.85; }
-.metrica-alerta { background: #fff8e1; border-color: var(--maiz); }
-.metrica-estrellas { position: relative; display: inline-block; margin-top: 4px; color: #e3d3c9; letter-spacing: 2px; font-size: 1.05rem; line-height: 1; }
-.metrica-estrellas > span { position: absolute; left: 0; top: 0; overflow: hidden; white-space: nowrap; color: var(--maiz); }
+.metrica-icono { position: absolute; top: 14px; right: 14px; width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; color: var(--acento); }
+.metrica.metrica-alerta { --acento: var(--maiz); background: #fff8e1; border-color: var(--maiz); }
+.metrica .metrica-estrellas { position: relative; display: inline-block; margin-top: 4px; color: #e3d3c9; letter-spacing: 2px; font-size: 1.05rem; line-height: 1; }
+.metrica .metrica-estrellas > span { position: absolute; left: 0; top: 0; overflow: hidden; white-space: nowrap; color: var(--maiz); font-size: 1.05rem; }
 .tres-columnas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 28px; }
 .dona-contenedor { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; justify-content: center; margin-top: 10px; }
 .dona { width: 190px; height: 190px; flex: none; transform: rotate(0deg); }

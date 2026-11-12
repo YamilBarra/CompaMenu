@@ -116,7 +116,7 @@ class ResumenController extends Controller
     private function localesMasReservados(): array
     {
         return Local::withCount('reservas')
-            ->having('reservas_count', '>', 0)
+            ->has('reservas')
             ->orderByDesc('reservas_count')
             ->take(5)
             ->get()
