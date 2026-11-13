@@ -4,7 +4,7 @@
 
 ### Menús económicos para estudiantes universitarios de Cusco
 
-![Laravel](https://img.shields.io/badge/Laravel-13+-FF2D20?logo=laravel&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.4+-777BB4?logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)
@@ -57,7 +57,7 @@
 
 | Capa | Tecnología |
 |------|------------|
-| Backend | Laravel 11+ (PHP 8.2+) |
+| Backend | Laravel 13 (PHP 8.4+, con extensión `gd` habilitada) |
 | Base de datos | MySQL |
 | Vistas | Blade |
 | Estilos | Bootstrap 5.3 |
@@ -153,6 +153,8 @@
 Los pasos para instalar y ejecutar el proyecto (XAMPP, terminal, base de datos, cuentas de prueba y pruebas automatizadas) están en la guía aparte:
 
 **[Configuración rápida](CONFIGURACION-RAPIDA.md)**
+
+> **Requisito importante:** Asegúrate de tener habilitada la extensión **`gd`** (además de `fileinfo` y `openssl`) en tu archivo `php.ini` antes de ejecutar `composer install`. Revisa los detalles en la guía de configuración rápida.
 
 ---
 

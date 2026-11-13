@@ -1,13 +1,18 @@
 # CompaMenu: Configuración rápida
 
-Guía para instalar y ejecutar CompaMenu en local. Para la descripción del proyecto, capturas y documentación técnica, revisa el [README](README.md).
+Guía para instalar y ejecutar CompaMenu en local con **Laravel 13 / PHP 8.4+**. Para la descripción del proyecto, capturas y documentación técnica, revisa el [README](README.md).
 
 ## Requisitos
 
-- PHP 8.2 o superior
+- **Laravel 13 / PHP 8.4+** (con las extensiones `gd`, `fileinfo`, `openssl`, `pdo_mysql`, `mbstring`, `curl` y `zip` habilitadas)
 - Composer
 - Node.js y npm
 - MySQL (XAMPP o servicio independiente)
+
+> **Nota sobre la extensión `gd` (y `fileinfo`):** En instalaciones nuevas de PHP (especialmente en Windows), las extensiones `gd` y `fileinfo` suelen venir desactivadas por defecto y provocan errores al ejecutar `composer install`. Para habilitarlas:
+> 1. Ejecuta `php --ini` en tu terminal para ubicar la ruta de tu archivo `php.ini` (*Loaded Configuration File*).
+> 2. Abre ese archivo `php.ini`, busca las líneas `;extension=gd` y `;extension=fileinfo` y **elimina el punto y coma (`;`)** al inicio de cada una (`extension=gd` y `extension=fileinfo`).
+> 3. Guarda los cambios y reinicia la terminal antes de instalar dependencias.
 
 ---
 
