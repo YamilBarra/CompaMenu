@@ -4,8 +4,8 @@
 
 ### Menús económicos para estudiantes universitarios de Cusco
 
-![Laravel](https://img.shields.io/badge/Laravel-11+-FF2D20?logo=laravel&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-13+-FF2D20?logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.4+-777BB4?logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?logo=bootstrap&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-Fetch_API-F7DF1E?logo=javascript&logoColor=black)
