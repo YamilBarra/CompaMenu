@@ -1,24 +1,75 @@
 # CompaMenu: Configuración rápida
 
-Guía para instalar y ejecutar CompaMenu en local con **Laravel 13 / PHP 8.4+**. Para la descripción del proyecto, capturas y documentación técnica, revisa el [README](README.md).
+Guía para instalar y ejecutar CompaMenu en tu computadora. Para la descripción del proyecto, capturas y documentación técnica, revisa el [README](README.md).
 
-## Requisitos
+## 1. Qué necesitas instalado
 
-- **Laravel 13 / PHP 8.4+** (con las extensiones `gd`, `fileinfo`, `openssl`, `pdo_mysql`, `mbstring`, `curl` y `zip` habilitadas)
-- Composer
-- Node.js y npm
-- MySQL (XAMPP o servicio independiente)
+| Programa | Versión | Para qué sirve |
+|----------|---------|----------------|
+| **PHP** | **8.4.1 o superior** | Ejecuta el proyecto (Laravel 13) |
+| **Composer** | 2.x | Descarga las librerías de PHP que usa el proyecto |
+| **MySQL** (viene en XAMPP) | cualquiera reciente | Guarda los datos (usuarios, menús, reservas) |
 
-> **Nota sobre la extensión `gd` (y `fileinfo`):** En instalaciones nuevas de PHP (especialmente en Windows), las extensiones `gd` y `fileinfo` suelen venir desactivadas por defecto y provocan errores al ejecutar `composer install`. Para habilitarlas:
-> 1. Ejecuta `php --ini` en tu terminal para ubicar la ruta de tu archivo `php.ini` (*Loaded Configuration File*).
-> 2. Abre ese archivo `php.ini`, busca las líneas `;extension=gd` y `;extension=fileinfo` y **elimina el punto y coma (`;`)** al inicio de cada una (`extension=gd` y `extension=fileinfo`).
-> 3. Guarda los cambios y reinicia la terminal antes de instalar dependencias.
+**No necesitas Node.js ni npm.** El proyecto ya trae sus estilos y scripts listos en la carpeta `public/`.
+
+> **Importante: la versión de PHP.** Con PHP 8.3 o anterior, `composer install` falla con un mensaje parecido a *"requires php >=8.4.1 -> your php version does not satisfy that requirement"*. Comprueba tu versión con:
+>
+> ```bash
+> php -v
+> ```
+
+### Si usas XAMPP
+
+- El XAMPP con **PHP 8.2 no sirve** para este proyecto. Necesitas un XAMPP que incluya **PHP 8.4 o superior** (descárgalo de <https://www.apachefriends.org/>).
+- Alternativa: instala PHP 8.4+ por separado y usa XAMPP solo para MySQL y phpMyAdmin.
+- En Windows, agrega `C:\xampp\php` al PATH para que la terminal use el PHP de XAMPP y no otro.
+
+### Extensiones de PHP
+
+Deben estar activas: `gd`, `fileinfo`, `openssl`, `pdo_mysql`, `mbstring`, `curl` y `zip`. En instalaciones nuevas (sobre todo en Windows) `gd` y `fileinfo` vienen desactivadas y dan error en `composer install`. Para activarlas:
+
+1. Ejecuta `php --ini` y mira la línea *Loaded Configuration File* (la ruta de tu `php.ini`).
+2. Abre ese `php.ini`, busca `;extension=gd` y `;extension=fileinfo` y **borra el `;`** del inicio de cada una.
+3. Guarda y reinicia la terminal.
 
 ---
 
-## 1. Configuración de la base de datos
+## 2. Pasos de instalación
 
-Al copiar `.env.example` a `.env`, reemplaza el bloque de base de datos por los parámetros de MySQL:
+Abre una terminal **dentro de la carpeta del proyecto** y sigue los pasos en orden.
+
+### Paso 1: Iniciar MySQL
+
+Abre XAMPP e inicia **MySQL** (y **Apache** si quieres usar phpMyAdmin).
+
+### Paso 2: Crear la base de datos
+
+1. Entra a <http://localhost/phpmyadmin>.
+2. Clic en **Nueva**.
+3. Nombre: `compaMenu` (exactamente así, con esa M mayúscula).
+4. Cotejamiento: `utf8mb4_unicode_ci`. Clic en **Crear**.
+
+### Paso 3: Instalar las librerías de PHP
+
+```bash
+composer install
+```
+
+*Descarga las librerías que necesita el proyecto y las guarda en la carpeta `vendor/`. Puede tardar unos minutos.*
+
+### Paso 4: Crear el archivo de configuración `.env`
+
+```bash
+# Windows (CMD o PowerShell)
+copy .env.example .env
+
+# Linux / Mac
+cp .env.example .env
+```
+
+*Crea tu archivo de configuración personal a partir de la plantilla.*
+
+Abre el archivo `.env` y busca el bloque `DB_`. Déjalo así (reemplaza lo que haya):
 
 ```env
 DB_CONNECTION=mysql
@@ -29,68 +80,46 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
----
+*Le dice al proyecto cómo conectarse a la base de datos que creaste. Si tu MySQL tiene contraseña, escríbela en `DB_PASSWORD`.*
 
-## 2. Cómo ejecutarlo
-
-### Método 1: XAMPP y phpMyAdmin (visual)
-
-**1. Iniciar servicios en XAMPP**
-
-Abre el panel de control de XAMPP e inicia los módulos **Apache** y **MySQL**, o desde la terminal:
+### Paso 5: Generar la clave de la aplicación
 
 ```bash
-sudo /opt/lampp/lampp start
-```
-
-**2. Crear la base de datos en phpMyAdmin**
-
-1. Entra a <http://localhost/phpmyadmin>.
-2. Haz clic en **Nueva** (*New*) en la barra lateral izquierda.
-3. En *Nombre de la base de datos* escribe exactamente: `compaMenu`.
-4. En el cotejamiento selecciona `utf8mb4_unicode_ci` y presiona **Crear**.
-
-**3. Instalar y preparar el proyecto**
-
-```bash
-composer install
-npm install
-cp .env.example .env
 php artisan key:generate
 ```
 
-**4. Poblar las tablas y compilar assets**
+*Crea una clave secreta aleatoria y la escribe en tu `.env` (línea `APP_KEY=`). Laravel la usa para cifrar las sesiones y las cookies. Es obligatorio hacerlo una vez; sin esa clave la aplicación muestra un error. No tienes que guardarla ni copiarla en ningún lado.*
+
+### Paso 6: Crear las tablas y cargar datos de prueba
 
 ```bash
 php artisan migrate:fresh --seed
-npm run build
 ```
 
-**5. Iniciar la aplicación**
+*Crea todas las tablas en la base `compaMenu` y carga datos de ejemplo (locales, menús, platos y las cuentas de prueba). Si lo vuelves a ejecutar, **borra todo y empieza de cero**.*
+
+### Paso 7: Iniciar la aplicación
 
 ```bash
 php artisan serve
 ```
 
-Abre la plataforma en <http://localhost:8000>.
+*Levanta el servidor. Deja esta terminal abierta mientras uses el sitio.*
+
+Abre <http://localhost:8000> en el navegador.
 
 ---
 
-### Método 2: Ejecución rápida por terminal (CLI)
+### Resumen (para copiar y pegar)
+
+Con MySQL ya iniciado y la base `compaMenu` ya creada:
 
 ```bash
-# 1. Asegurar el servicio de MySQL activo y crear la base de datos
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS compaMenu CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
-
-# 2. Dependencias y configuración
 composer install
-npm install
-cp .env.example .env
+cp .env.example .env        # en Windows: copy .env.example .env
+# edita .env con los datos DB_ de arriba
 php artisan key:generate
-
-# 3. Migraciones, datos de prueba y arranque
 php artisan migrate:fresh --seed
-npm run build
 php artisan serve
 ```
 
@@ -98,7 +127,7 @@ php artisan serve
 
 ## 3. Cuentas de prueba
 
-> **Contraseña unificada para todas las cuentas:** `Compa2026!`
+> **Contraseña de todas las cuentas:** `Compa2026!`
 
 | Rol | Correo |
 |-----|--------|
@@ -108,7 +137,19 @@ php artisan serve
 
 ---
 
-## 4. Pruebas automatizadas
+## 4. Problemas frecuentes
+
+| Problema | Solución |
+|----------|----------|
+| `composer install` dice que tu versión de PHP no cumple | Necesitas PHP 8.4.1 o superior (ver sección 1) |
+| Error por falta de la extensión `gd` o `fileinfo` | Actívalas en `php.ini` (ver sección 1) |
+| `No application encryption key has been specified` | Falta el Paso 5: ejecuta `php artisan key:generate` |
+| `SQLSTATE ... Unknown database 'compaMenu'` | Falta el Paso 2, o el nombre no es exactamente `compaMenu` |
+| `Connection refused` al migrar | MySQL no está iniciado (Paso 1) o los datos `DB_` del `.env` están mal |
+
+---
+
+## 5. Pruebas automatizadas (opcional)
 
 ```bash
 php artisan test
