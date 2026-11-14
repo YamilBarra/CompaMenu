@@ -9,7 +9,7 @@ Este archivo cumple con la consigna de la Fase 2: *citación apropiada de librer
 | Laravel | 13.x | Framework MVC del backend | MIT | Dependencia de Composer (`vendor/`, no se sube a Git) |
 | Bootstrap | 5.3.8 | Rejilla, formularios, botones, alertas y paginación | MIT | `public/vendor/bootstrap/` (incluye `LICENSE`) |
 | Alfa Slab One | — | Tipografía de los títulos | SIL Open Font License 1.1 | `public/fonts/alfa-slab-one.woff2` y `public/fonts/LICENSE-Alfa-Slab-One-OFL.txt` |
-| PHP | 8.4+ | Lenguaje del servidor | PHP License 3.01 | Instalación del sistema |
+| PHP | 8.3+ | Lenguaje del servidor | PHP License 3.01 | Instalación del sistema |
 | MySQL / MariaDB | — | Base de datos | GPL v2 | XAMPP |
 | XAMPP y phpMyAdmin | — | Entorno local y administración de la base | GPL | Instalación local |
 | PHPUnit | 12.x | Pruebas automáticas | BSD de 3 cláusulas | Dependencia de Composer |

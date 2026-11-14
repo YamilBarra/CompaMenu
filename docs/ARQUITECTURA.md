@@ -5,7 +5,7 @@ Los diagramas están escritos en [Mermaid](https://mermaid.js.org/): GitHub los 
 
 ## 1. Visión general
 
-CompaMenu es una aplicación web **Laravel 13 (PHP 8.4+) con MySQL**. El navegador recibe HTML generado en el servidor (vistas Blade),
+CompaMenu es una aplicación web **Laravel 13 (PHP 8.3+) con MySQL**. El navegador recibe HTML generado en el servidor (vistas Blade),
 con CSS propio sobre Bootstrap 5 y un solo archivo de JavaScript puro para las partes interactivas.
 
 ```mermaid

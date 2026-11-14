@@ -6,13 +6,13 @@ Guía para instalar y ejecutar CompaMenu en tu computadora. Para la descripción
 
 | Programa | Versión | Para qué sirve |
 |----------|---------|----------------|
-| **PHP** | **8.4.1 o superior** | Ejecuta el proyecto (Laravel 13) |
+| **PHP** | **8.3 o superior** (8.3, 8.4 u 8.5) | Ejecuta el proyecto (Laravel 13) |
 | **Composer** | 2.x | Descarga las librerías de PHP que usa el proyecto |
 | **MySQL** (viene en XAMPP) | cualquiera reciente | Guarda los datos (usuarios, menús, reservas) |
 
 **No necesitas Node.js ni npm.** El proyecto ya trae sus estilos y scripts listos en la carpeta `public/`.
 
-> **Importante: la versión de PHP.** Con PHP 8.3 o anterior, `composer install` falla con un mensaje parecido a *"requires php >=8.4.1 -> your php version does not satisfy that requirement"*. Comprueba tu versión con:
+> **Importante: la versión de PHP.** Con PHP 8.2 o anterior, `composer install` falla con un mensaje parecido a *"Your PHP version (8.2.x) does not satisfy that requirement"*. Comprueba tu versión con:
 >
 > ```bash
 > php -v
@@ -20,13 +20,13 @@ Guía para instalar y ejecutar CompaMenu en tu computadora. Para la descripción
 
 ### Si usas XAMPP
 
-- El XAMPP con **PHP 8.2 no sirve** para este proyecto. Necesitas un XAMPP que incluya **PHP 8.4 o superior** (descárgalo de <https://www.apachefriends.org/>).
-- Alternativa: instala PHP 8.4+ por separado y usa XAMPP solo para MySQL y phpMyAdmin.
-- En Windows, agrega `C:\xampp\php` al PATH para que la terminal use el PHP de XAMPP y no otro.
+- El XAMPP con **PHP 8.2 no sirve** para este proyecto. Necesitas un XAMPP que incluya **PHP 8.3 o superior** (descárgalo de <https://www.apachefriends.org/>).
+- Alternativa: instala PHP 8.3+ por separado y usa XAMPP solo para MySQL y phpMyAdmin.
+- **Solo si `php -v` falla o muestra una versión distinta a la de XAMPP** (en Windows): agrega `C:\xampp\php` al PATH y abre la terminal de nuevo.
 
 ### Extensiones de PHP
 
-Deben estar activas: `gd`, `fileinfo`, `openssl`, `pdo_mysql`, `mbstring`, `curl` y `zip`. En instalaciones nuevas (sobre todo en Windows) `gd` y `fileinfo` vienen desactivadas y dan error en `composer install`. Para activarlas:
+Deben estar activas: `gd`, `fileinfo`, `openssl`, `pdo_mysql`, `mbstring`, `curl` y `zip`. **XAMPP ya las trae activadas, así que normalmente no tienes que hacer nada.** Este paso es solo si `composer install` te dice que falta una extensión (suele pasar con `gd` o `fileinfo` en instalaciones nuevas de PHP, sobre todo en Windows). Para activarlas:
 
 1. Ejecuta `php --ini` y mira la línea *Loaded Configuration File* (la ruta de tu `php.ini`).
 2. Abre ese `php.ini`, busca `;extension=gd` y `;extension=fileinfo` y **borra el `;`** del inicio de cada una.
@@ -141,7 +141,7 @@ php artisan serve
 
 | Problema | Solución |
 |----------|----------|
-| `composer install` dice que tu versión de PHP no cumple | Necesitas PHP 8.4.1 o superior (ver sección 1) |
+| `composer install` dice que tu versión de PHP no cumple | Necesitas PHP 8.3 o superior (ver sección 1) |
 | Error por falta de la extensión `gd` o `fileinfo` | Actívalas en `php.ini` (ver sección 1) |
 | `No application encryption key has been specified` | Falta el Paso 5: ejecuta `php artisan key:generate` |
 | `SQLSTATE ... Unknown database 'compaMenu'` | Falta el Paso 2, o el nombre no es exactamente `compaMenu` |
@@ -153,4 +153,10 @@ php artisan serve
 
 ```bash
 php artisan test
+```
+
+Si te sale un error sobre `/dev/tty` (puede pasar en algunas terminales de Linux o Mac), usa:
+
+```bash
+php artisan test --without-tty
 ```
