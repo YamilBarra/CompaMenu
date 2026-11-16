@@ -65,9 +65,9 @@ class DatabaseSeeder extends Seeder
                 [['entrada', 'Menestrón'], ['segundo', 'Guiso de lentejas con huevo']]],
             'chairo' => ['andes', 'Chairo cusqueño y estofado de res', 8.00, 'andino', 'img/chairo.jpg', 'Chuño y arroz', 'Mate de coca', 14,
                 [['entrada', 'Chairo cusqueño'], ['segundo', 'Estofado de res']]],
-            'zapallo' => ['verde', 'Crema de zapallo y tortilla de verduras', 7.50, 'vegetariano', null, 'Ensalada criolla', 'Refresco de piña', 10,
+           'zapallo' => ['verde', 'Crema de zapallo y tortilla de verduras', 7.50, 'vegetariano', 'img/menestron.jpg', 'Ensalada criolla', 'Refresco de piña', 10,
                 [['entrada', 'Crema de zapallo'], ['segundo', 'Tortilla de verduras']]],
-            'caldo' => ['inti', 'Caldo de gallina y arroz con pollo', 6.00, 'criollo', null, 'Arroz con pollo', 'Chicha morada', 15,
+            'caldo' => ['inti', 'Caldo de gallina y arroz con pollo', 6.00, 'criollo', 'img/chairo.jpg', 'Arroz con pollo', 'Chicha morada', 15,
                 [['entrada', 'Caldo de gallina'], ['segundo', 'Arroz con pollo']]],
         ];
         foreach ($datosMenus as $clave => [$local, $nombre, $precio, $tipo, $foto, $acomp, $bebida, $porciones, $platos]) {
