@@ -164,6 +164,7 @@ Los pasos para instalar y ejecutar el proyecto (XAMPP, terminal, base de datos, 
 |---------|-----------|
 | [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) | Arquitectura MVC, diagramas, modelo de datos, roles y decisiones de diseño |
 | [`docs/REFERENCIAS-Y-LICENCIAS.md`](docs/REFERENCIAS-Y-LICENCIAS.md) | Citación de librerías y recursos externos, licencias y referencias |
+| [`docs/OPTIMIZACION-Y-SEGURIDAD.md`](docs/OPTIMIZACION-Y-SEGURIDAD.md) | Optimización de consultas (índices, caché, N+1) y defensas contra SQL Injection |
 
 > El código está comentado en español: cada método de controlador, modelo, middleware y request explica su propósito, su ruta y las reglas de seguridad que aplica; cada vista Blade indica qué muestra y qué variables recibe.
 

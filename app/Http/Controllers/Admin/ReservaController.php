@@ -15,7 +15,7 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        $reservas = Reserva::with(['user', 'menu', 'local'])->latest()->paginate(12);
+        $reservas = Reserva::with(['user:id,name', 'menu:id,nombre', 'local:id,nombre'])->latest()->paginate(12); // solo las columnas que usa la vista
 
         return view('admin.reservas', compact('reservas'));
     }

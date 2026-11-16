@@ -21,7 +21,7 @@ class ResenaController extends Controller
 
         $resenas = Valoracion::query()
             ->where('visible', true)
-            ->with(['local', 'user'])
+            ->with(['local:id,nombre', 'user:id,name'])
             ->when($localId > 0, fn ($q) => $q->where('local_id', $localId))
             ->latest()
             ->paginate(8)

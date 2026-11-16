@@ -15,7 +15,7 @@ class LocalController extends Controller
     public function index()
     {
         $locales = Local::query()
-            ->with('user')
+            ->with('user:id,name')
             ->conPuntaje()
             ->withCount(['menus', 'remates'])
             ->orderBy('nombre')

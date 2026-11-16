@@ -21,7 +21,7 @@ class UsuarioController extends Controller
         $q = Texto::limpio((string) $request->query('q', '')) ?? '';
 
         $usuarios = User::query()
-            ->with('local')
+            ->with('local:id,user_id,nombre')
             ->when(in_array($rol, [User::ROL_ESTUDIANTE, User::ROL_ESTABLECIMIENTO, User::ROL_ADMIN], true), fn ($query) => $query->where('rol', $rol))
             ->when($q !== '', function ($query) use ($q) {
                 $texto = '%'.Texto::paraLike(mb_strtolower($q)).'%';

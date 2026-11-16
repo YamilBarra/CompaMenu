@@ -9,6 +9,7 @@ use App\Models\Remate;
 use App\Models\Reserva;
 use App\Models\User;
 use App\Models\Valoracion;
+use App\Support\CacheConsulta;
 
 /** Panel administrativo: resumen con las métricas del documento (sección 6.6) y gráficos. */
 class ResumenController extends Controller
@@ -27,41 +28,50 @@ class ResumenController extends Controller
     /**
      * Calcula las métricas del panel (sección 6.6 de la propuesta): estudiantes, establecimientos, menús, remates,
      * valoraciones, promedio de estrellas y reservas. El promedio solo cuenta valoraciones visibles.
-     * Además prepara los datos de los gráficos (todo con Eloquent y colecciones, sin SQL crudo).
+     *
+     * Optimización (Semana 11):
+     *  - Los conteos de los gráficos se hacen en la base con COUNT(*) ... GROUP BY (antes se traían todas las
+     *    filas con pluck() y se contaban en PHP).
+     *  - Métricas y gráficos se guardan 2 minutos en caché; el caché se invalida solo cuando cambian los datos
+     *    (ver CacheConsulta y AppServiceProvider).
+     *  - Las listas "últimas reservas/reseñas" traen solo las columnas que usa la vista.
      * Ruta: GET /admin.
      */
     public function index()
     {
-        $metricas = [
-            'estudiantes' => User::where('rol', User::ROL_ESTUDIANTE)->count(),
-            'establecimientos' => Local::count(),
-            'menus' => Menu::count(),
-            'remates' => Remate::count(),
-            'valoraciones' => Valoracion::count(),
-            'promedio' => round((float) Valoracion::where('visible', true)->avg('puntaje'), 1),
-            'reservas' => Reserva::count(),
-            'pendientes' => Reserva::where('estado', 'pendiente')->count(),
-        ];
+        ['metricas' => $metricas, 'graficos' => $graficos] = CacheConsulta::recordar('admin.resumen', 120, function () {
+            $porEstado = Reserva::selectRaw('estado, COUNT(*) as total')->groupBy('estado')->pluck('total', 'estado');
 
-        $ultimasReservas = Reserva::with(['user', 'menu', 'local'])->latest()->take(5)->get();
-        $ultimasResenas = Valoracion::with(['user', 'local'])->latest()->take(5)->get();
+            return [
+                'metricas' => [
+                    'estudiantes' => User::where('rol', User::ROL_ESTUDIANTE)->count(),
+                    'establecimientos' => Local::count(),
+                    'menus' => Menu::count(),
+                    'remates' => Remate::count(),
+                    'valoraciones' => Valoracion::count(),
+                    'promedio' => round((float) Valoracion::where('visible', true)->avg('puntaje'), 1),
+                    'reservas' => (int) $porEstado->sum(),            // total = suma de los grupos, sin otra consulta
+                    'pendientes' => (int) ($porEstado['pendiente'] ?? 0),
+                ],
+                'graficos' => [
+                    'estados' => $this->reservasPorEstado($porEstado),
+                    'dias' => $this->reservasUltimosDias(7),
+                    'tipos' => $this->menusPorTipo(),
+                    'puntajes' => $this->distribucionPuntajes(),
+                    'locales' => $this->localesMasReservados(),
+                ],
+            ];
+        });
 
-        $graficos = [
-            'estados' => $this->reservasPorEstado(),
-            'dias' => $this->reservasUltimosDias(7),
-            'tipos' => $this->menusPorTipo(),
-            'puntajes' => $this->distribucionPuntajes(),
-            'locales' => $this->localesMasReservados(),
-        ];
+        $ultimasReservas = Reserva::with(['user:id,name', 'menu:id,nombre', 'local:id,nombre'])->latest()->take(5)->get();
+        $ultimasResenas = Valoracion::with(['user:id,name', 'local:id,nombre'])->latest()->take(5)->get();
 
         return view('admin.resumen', compact('metricas', 'ultimasReservas', 'ultimasResenas', 'graficos'));
     }
 
-    /** Reservas agrupadas por estado, en el orden de Reserva::ESTADOS. */
-    private function reservasPorEstado(): array
+    /** Reservas agrupadas por estado, en el orden de Reserva::ESTADOS. Recibe el conteo ya calculado en la base. */
+    private function reservasPorEstado($conteo): array
     {
-        $conteo = Reserva::pluck('estado')->countBy();
-
         return collect(Reserva::ESTADOS)->map(fn (string $nombre, string $clave) => [
             'clave' => $clave,
             'nombre' => $nombre,
@@ -75,9 +85,11 @@ class ResumenController extends Controller
     {
         $dias = collect(range($n - 1, 0))->map(fn (int $atras) => now()->subDays($atras)->startOfDay());
 
+        // COUNT(*) por día en la base (DATE() existe en MySQL y en SQLite)
         $conteo = Reserva::where('created_at', '>=', $dias->first())
-            ->pluck('created_at')
-            ->countBy(fn ($fecha) => $fecha->toDateString());
+            ->selectRaw('DATE(created_at) as dia, COUNT(*) as total')
+            ->groupBy('dia')
+            ->pluck('total', 'dia');
 
         return $dias->map(fn ($dia) => [
             'etiqueta' => self::DIAS[$dia->dayOfWeek],
@@ -90,7 +102,7 @@ class ResumenController extends Controller
     /** Menús publicados por tipo (criollo, andino, vegetariano, proteico). */
     private function menusPorTipo(): array
     {
-        $conteo = Menu::pluck('tipo')->countBy();
+        $conteo = Menu::selectRaw('tipo, COUNT(*) as total')->groupBy('tipo')->pluck('total', 'tipo');
         $colores = ['criollo' => '#b5121b', 'andino' => '#f4b41a', 'vegetariano' => '#2e7d4f', 'proteico' => '#1b9aaa'];
 
         return collect(Menu::TIPOS)->map(fn (string $nombre, string $clave) => [
@@ -103,7 +115,7 @@ class ResumenController extends Controller
     /** Cuántas valoraciones visibles hay de 5 a 1 estrellas. */
     private function distribucionPuntajes(): array
     {
-        $conteo = Valoracion::where('visible', true)->pluck('puntaje')->countBy();
+        $conteo = Valoracion::where('visible', true)->selectRaw('puntaje, COUNT(*) as total')->groupBy('puntaje')->pluck('total', 'puntaje');
 
         return collect(range(5, 1))->map(fn (int $p) => [
             'nombre' => $p.' ★',
@@ -115,7 +127,8 @@ class ResumenController extends Controller
     /** Los 5 locales con más reservas (solo los que tienen al menos una). */
     private function localesMasReservados(): array
     {
-        return Local::withCount('reservas')
+        return Local::select('id', 'nombre')
+            ->withCount('reservas')
             ->has('reservas')
             ->orderByDesc('reservas_count')
             ->take(5)

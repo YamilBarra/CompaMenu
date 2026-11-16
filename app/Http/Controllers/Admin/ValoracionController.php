@@ -14,7 +14,7 @@ class ValoracionController extends Controller
      */
     public function index()
     {
-        $valoraciones = Valoracion::with(['local', 'user'])->latest()->paginate(12);
+        $valoraciones = Valoracion::with(['local:id,nombre', 'user:id,name'])->latest()->paginate(12); // eager loading con columnas específicas
 
         return view('admin.valoraciones', compact('valoraciones'));
     }

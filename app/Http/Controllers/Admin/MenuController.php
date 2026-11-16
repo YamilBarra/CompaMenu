@@ -14,7 +14,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::with('local')->latest()->paginate(12);
+        $menus = Menu::with('local:id,nombre')->latest()->paginate(12); // eager loading con columnas específicas
 
         return view('admin.menus', compact('menus'));
     }
