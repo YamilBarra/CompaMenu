@@ -173,9 +173,27 @@ class SeguridadOptimizacionTest extends TestCase
         $this->assertTrue(Schema::hasIndex('locales', ['activo', 'distancia_campus']));
         $this->assertTrue(Schema::hasIndex('locales', ['activo', 'tipo_local']));
         $this->assertTrue(Schema::hasIndex('valoraciones', ['local_id', 'visible', 'puntaje']));
-        $this->assertTrue(Schema::hasIndex('remates', ['menu_id', 'activo', 'porciones']));
+        $this->assertTrue(Schema::hasIndex('remates', ['activo', 'porciones', 'menu_id']));
         $this->assertTrue(Schema::hasIndex('platos', ['menu_id', 'orden']));
         $this->assertTrue(Schema::hasIndex('reservas', ['created_at']));
         $this->assertTrue(Schema::hasIndex('users', ['rol']));
+        $this->assertTrue(Schema::hasIndex('valoraciones', ['visible', 'puntaje']));
+    }
+
+    // ---------- Cabeceras de seguridad (OWASP A05) ----------
+    public function test_las_respuestas_incluyen_cabeceras_de_seguridad(): void
+    {
+        $respuesta = $this->get('/');
+
+        $respuesta->assertOk();
+        $respuesta->assertHeader('X-Content-Type-Options', 'nosniff');
+        $respuesta->assertHeader('X-Frame-Options', 'SAMEORIGIN');
+        $respuesta->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+        $respuesta->assertHeaderMissing('Strict-Transport-Security'); // solo se envía bajo HTTPS
+    }
+
+    public function test_hsts_solo_se_envia_bajo_https(): void
+    {
+        $this->get('https://localhost/')->assertHeader('Strict-Transport-Security');
     }
 }

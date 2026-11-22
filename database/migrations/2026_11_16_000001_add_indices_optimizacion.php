@@ -62,8 +62,16 @@ return new class extends Migration
             $table->dropIndex('valoraciones_local_visible_puntaje_idx');
             $table->dropIndex('valoraciones_visible_fecha_idx');
         });
+        // La clave foránea de menu_id usa estos índices compuestos: primero se crea uno simple y luego se borra el compuesto
+        // (sin esto MySQL/MariaDB responde "needed in a foreign key constraint" y el rollback queda a medias).
+        Schema::table('remates', function (Blueprint $table) {
+            $table->index('menu_id', 'remates_menu_id_fk_idx');
+        });
         Schema::table('remates', function (Blueprint $table) {
             $table->dropIndex('remates_menu_activo_porciones_idx');
+        });
+        Schema::table('platos', function (Blueprint $table) {
+            $table->index('menu_id', 'platos_menu_id_fk_idx');
         });
         Schema::table('platos', function (Blueprint $table) {
             $table->dropIndex('platos_menu_orden_idx');
