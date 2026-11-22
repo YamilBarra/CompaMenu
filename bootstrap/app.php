@@ -16,6 +16,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'rol' => \App\Http\Middleware\VerificarRol::class,
         ]);
+
+        // Cabeceras de seguridad (nosniff, X-Frame-Options, Referrer-Policy, HSTS bajo HTTPS) en todas las páginas web
+        $middleware->web(append: [
+            \App\Http\Middleware\CabecerasSeguridad::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
