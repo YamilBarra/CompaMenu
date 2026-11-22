@@ -40,7 +40,8 @@ class ResumenController extends Controller
     public function index()
     {
         ['metricas' => $metricas, 'graficos' => $graficos] = CacheConsulta::recordar('admin.resumen', 120, function () {
-            $porEstado = Reserva::selectRaw('estado, COUNT(*) as total')->groupBy('estado')->pluck('total', 'estado');
+            // toBase(): Reserva tiene un accesor getTotalAttribute() (precio × cantidad) que pisaba el COUNT(*) llamado "total" y daba 0
+            $porEstado = Reserva::selectRaw('estado, COUNT(*) as total')->groupBy('estado')->toBase()->pluck('total', 'estado');
 
             return [
                 'metricas' => [
@@ -89,6 +90,7 @@ class ResumenController extends Controller
         $conteo = Reserva::where('created_at', '>=', $dias->first())
             ->selectRaw('DATE(created_at) as dia, COUNT(*) as total')
             ->groupBy('dia')
+            ->toBase()   // sin modelos: evita el accesor getTotalAttribute() de Reserva
             ->pluck('total', 'dia');
 
         return $dias->map(fn ($dia) => [
