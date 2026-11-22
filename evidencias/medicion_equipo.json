@@ -1,0 +1,547 @@
+{
+    "S1 Inicio: precio<=10, distancia<=500 m": {
+        "status": 200,
+        "bytes": 13352,
+        "mediana_ms": 5.2,
+        "min_ms": 5,
+        "consultas": 7,
+        "db_ms": 0.6,
+        "queries": [
+            {
+                "sql": "select * from \"sessions\" where \"id\" = ? limit 1",
+                "bindings": [
+                    "I1Gf1WMkNl37PCInDjz5ssekFGk5QEArSMz8ZqVg"
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select * from \"menus\" where exists (select * from \"locales\" where \"menus\".\"local_id\" = \"locales\".\"id\" and \"activo\" = ? and \"distancia_campus\" <= ?) and \"precio\" <= ? and \"disponible\" = ? order by \"precio\" asc, \"nombre\" asc",
+                "bindings": [
+                    true,
+                    500,
+                    10,
+                    true
+                ],
+                "ms": 0.15
+            },
+            {
+                "sql": "select \"locales\".*, (select avg(\"valoraciones\".\"puntaje\") from \"valoraciones\" where \"locales\".\"id\" = \"valoraciones\".\"local_id\" and \"visible\" = ?) as \"puntaje\", (select count(*) from \"valoraciones\" where \"locales\".\"id\" = \"valoraciones\".\"local_id\" and \"visible\" = ?) as \"resenas_count\" from \"locales\" where \"locales\".\"id\" in (1, 2, 3, 4, 5, 6)",
+                "bindings": [
+                    true,
+                    true
+                ],
+                "ms": 0.14
+            },
+            {
+                "sql": "select \"remates\".* from \"remates\" inner join (select MAX(\"remates\".\"id\") as \"id_aggregate\", \"remates\".\"menu_id\" from \"remates\" where \"remates\".\"menu_id\" in (1, 2, 3, 4, 5, 6, 7) group by \"remates\".\"menu_id\") as \"latestOfMany\" on \"latestOfMany\".\"id_aggregate\" = \"remates\".\"id\" and \"latestOfMany\".\"menu_id\" = \"remates\".\"menu_id\" where \"activo\" = ? and \"porciones\" > ?",
+                "bindings": [
+                    true,
+                    0
+                ],
+                "ms": 0.13
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"locales\" where \"activo\" = ?",
+                "bindings": [
+                    true
+                ],
+                "ms": 0.04
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"remates\" where \"activo\" = ? and \"porciones\" > ? and exists (select * from \"menus\" where \"remates\".\"menu_id\" = \"menus\".\"id\" and \"disponible\" = ?) and exists (select * from \"locales\" where \"remates\".\"local_id\" = \"locales\".\"id\" and \"activo\" = ?)",
+                "bindings": [
+                    true,
+                    0,
+                    true,
+                    true
+                ],
+                "ms": 0.08
+            },
+            {
+                "sql": "update \"sessions\" set \"payload\" = ?, \"last_activity\" = ?, \"user_id\" = ?, \"ip_address\" = ?, \"user_agent\" = ? where \"id\" = ?",
+                "bindings": [
+                    "eyJfdG9rZW4iOiJqWVo0dkIyOW9CdmZSQklneHRWNTVsM2Y1cTVyVm04S0hpRTNYbks3IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvP2Rpc3RhbmNpYT01MDAmcHJlY2lvPTEwIiwicm91dGUiOiJpbmljaW8ifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==",
+                    1795353691,
+                    null,
+                    "127.0.0.1",
+                    "Symfony",
+                    "I1Gf1WMkNl37PCInDjz5ssekFGk5QEArSMz8ZqVg"
+                ],
+                "ms": 0.06
+            }
+        ]
+    },
+    "S2 Inicio: buscador por nombre \"lomo\"": {
+        "status": 200,
+        "bytes": 7077,
+        "mediana_ms": 4.2,
+        "min_ms": 3.7,
+        "consultas": 7,
+        "db_ms": 0.6,
+        "queries": [
+            {
+                "sql": "select * from \"sessions\" where \"id\" = ? limit 1",
+                "bindings": [
+                    "V7hx3bp8xUyDOgkocAPieNcUWN7uHjlxN75Q0Frt"
+                ],
+                "ms": 0.04
+            },
+            {
+                "sql": "select * from \"menus\" where exists (select * from \"locales\" where \"menus\".\"local_id\" = \"locales\".\"id\" and \"activo\" = ?) and \"precio\" <= ? and \"disponible\" = ? and (LOWER(nombre) LIKE ? or exists (select * from \"locales\" where \"menus\".\"local_id\" = \"locales\".\"id\" and LOWER(nombre) LIKE ?)) order by \"precio\" asc, \"nombre\" asc",
+                "bindings": [
+                    true,
+                    12,
+                    true,
+                    "%lomo%",
+                    "%lomo%"
+                ],
+                "ms": 0.18
+            },
+            {
+                "sql": "select \"locales\".*, (select avg(\"valoraciones\".\"puntaje\") from \"valoraciones\" where \"locales\".\"id\" = \"valoraciones\".\"local_id\" and \"visible\" = ?) as \"puntaje\", (select count(*) from \"valoraciones\" where \"locales\".\"id\" = \"valoraciones\".\"local_id\" and \"visible\" = ?) as \"resenas_count\" from \"locales\" where \"locales\".\"id\" in (2)",
+                "bindings": [
+                    true,
+                    true
+                ],
+                "ms": 0.09
+            },
+            {
+                "sql": "select \"remates\".* from \"remates\" inner join (select MAX(\"remates\".\"id\") as \"id_aggregate\", \"remates\".\"menu_id\" from \"remates\" where \"remates\".\"menu_id\" in (2) group by \"remates\".\"menu_id\") as \"latestOfMany\" on \"latestOfMany\".\"id_aggregate\" = \"remates\".\"id\" and \"latestOfMany\".\"menu_id\" = \"remates\".\"menu_id\" where \"activo\" = ? and \"porciones\" > ?",
+                "bindings": [
+                    true,
+                    0
+                ],
+                "ms": 0.1
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"locales\" where \"activo\" = ?",
+                "bindings": [
+                    true
+                ],
+                "ms": 0.03
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"remates\" where \"activo\" = ? and \"porciones\" > ? and exists (select * from \"menus\" where \"remates\".\"menu_id\" = \"menus\".\"id\" and \"disponible\" = ?) and exists (select * from \"locales\" where \"remates\".\"local_id\" = \"locales\".\"id\" and \"activo\" = ?)",
+                "bindings": [
+                    true,
+                    0,
+                    true,
+                    true
+                ],
+                "ms": 0.07
+            },
+            {
+                "sql": "update \"sessions\" set \"payload\" = ?, \"last_activity\" = ?, \"user_id\" = ?, \"ip_address\" = ?, \"user_agent\" = ? where \"id\" = ?",
+                "bindings": [
+                    "eyJfdG9rZW4iOiJqWVo0dkIyOW9CdmZSQklneHRWNTVsM2Y1cTVyVm04S0hpRTNYbks3IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvP3ByZWNpbz0xMiZxPWxvbW8iLCJyb3V0ZSI6ImluaWNpbyJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19",
+                    1795353691,
+                    null,
+                    "127.0.0.1",
+                    "Symfony",
+                    "V7hx3bp8xUyDOgkocAPieNcUWN7uHjlxN75Q0Frt"
+                ],
+                "ms": 0.05
+            }
+        ]
+    },
+    "S3 Inicio: solo menús con remate": {
+        "status": 200,
+        "bytes": 9332,
+        "mediana_ms": 4.7,
+        "min_ms": 4.1,
+        "consultas": 7,
+        "db_ms": 0.6,
+        "queries": [
+            {
+                "sql": "select * from \"sessions\" where \"id\" = ? limit 1",
+                "bindings": [
+                    "dZor2gIMqBXPoz4vHM39f5hmGpfJbt8OuImwvgPL"
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select * from \"menus\" where exists (select * from \"locales\" where \"menus\".\"local_id\" = \"locales\".\"id\" and \"activo\" = ?) and \"precio\" <= ? and \"disponible\" = ? and exists (select * from \"remates\" where \"menus\".\"id\" = \"remates\".\"menu_id\" and \"activo\" = ? and \"porciones\" > ?) order by \"precio\" asc, \"nombre\" asc",
+                "bindings": [
+                    true,
+                    15,
+                    true,
+                    true,
+                    0
+                ],
+                "ms": 0.16
+            },
+            {
+                "sql": "select \"locales\".*, (select avg(\"valoraciones\".\"puntaje\") from \"valoraciones\" where \"locales\".\"id\" = \"valoraciones\".\"local_id\" and \"visible\" = ?) as \"puntaje\", (select count(*) from \"valoraciones\" where \"locales\".\"id\" = \"valoraciones\".\"local_id\" and \"visible\" = ?) as \"resenas_count\" from \"locales\" where \"locales\".\"id\" in (1, 2, 5)",
+                "bindings": [
+                    true,
+                    true
+                ],
+                "ms": 0.12
+            },
+            {
+                "sql": "select \"remates\".* from \"remates\" inner join (select MAX(\"remates\".\"id\") as \"id_aggregate\", \"remates\".\"menu_id\" from \"remates\" where \"remates\".\"menu_id\" in (1, 2, 5) group by \"remates\".\"menu_id\") as \"latestOfMany\" on \"latestOfMany\".\"id_aggregate\" = \"remates\".\"id\" and \"latestOfMany\".\"menu_id\" = \"remates\".\"menu_id\" where \"activo\" = ? and \"porciones\" > ?",
+                "bindings": [
+                    true,
+                    0
+                ],
+                "ms": 0.13
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"locales\" where \"activo\" = ?",
+                "bindings": [
+                    true
+                ],
+                "ms": 0.04
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"remates\" where \"activo\" = ? and \"porciones\" > ? and exists (select * from \"menus\" where \"remates\".\"menu_id\" = \"menus\".\"id\" and \"disponible\" = ?) and exists (select * from \"locales\" where \"remates\".\"local_id\" = \"locales\".\"id\" and \"activo\" = ?)",
+                "bindings": [
+                    true,
+                    0,
+                    true,
+                    true
+                ],
+                "ms": 0.08
+            },
+            {
+                "sql": "update \"sessions\" set \"payload\" = ?, \"last_activity\" = ?, \"user_id\" = ?, \"ip_address\" = ?, \"user_agent\" = ? where \"id\" = ?",
+                "bindings": [
+                    "eyJfdG9rZW4iOiJqWVo0dkIyOW9CdmZSQklneHRWNTVsM2Y1cTVyVm04S0hpRTNYbks3IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvP3ByZWNpbz0xNSZyZW09MSIsInJvdXRlIjoiaW5pY2lvIn0sIl9mbGFzaCI6eyJvbGQiOltdLCJuZXciOltdfX0=",
+                    1795353691,
+                    null,
+                    "127.0.0.1",
+                    "Symfony",
+                    "dZor2gIMqBXPoz4vHM39f5hmGpfJbt8OuImwvgPL"
+                ],
+                "ms": 0.06
+            }
+        ]
+    },
+    "S4 Locales (catálogo)": {
+        "status": 200,
+        "bytes": 6778,
+        "mediana_ms": 3,
+        "min_ms": 2.6,
+        "consultas": 3,
+        "db_ms": 0.2,
+        "queries": [
+            {
+                "sql": "select * from \"sessions\" where \"id\" = ? limit 1",
+                "bindings": [
+                    "qa77S8daOeta0RlRKNzuUiSuddkXSkZXgjyvCW94"
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"locales\".*, (select avg(\"valoraciones\".\"puntaje\") from \"valoraciones\" where \"locales\".\"id\" = \"valoraciones\".\"local_id\" and \"visible\" = ?) as \"puntaje\", (select count(*) from \"valoraciones\" where \"locales\".\"id\" = \"valoraciones\".\"local_id\" and \"visible\" = ?) as \"resenas_count\", (select count(*) from \"menus\" where \"locales\".\"id\" = \"menus\".\"local_id\" and \"disponible\" = ?) as \"menus_disponibles\" from \"locales\" where \"activo\" = ? order by \"distancia_campus\" asc",
+                "bindings": [
+                    true,
+                    true,
+                    true,
+                    true
+                ],
+                "ms": 0.13
+            },
+            {
+                "sql": "update \"sessions\" set \"payload\" = ?, \"last_activity\" = ?, \"user_id\" = ?, \"ip_address\" = ?, \"user_agent\" = ? where \"id\" = ?",
+                "bindings": [
+                    "eyJfdG9rZW4iOiJqWVo0dkIyOW9CdmZSQklneHRWNTVsM2Y1cTVyVm04S0hpRTNYbks3IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvbG9jYWxlcyIsInJvdXRlIjoibG9jYWxlcy5pbmRleCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19",
+                    1795353691,
+                    null,
+                    "127.0.0.1",
+                    "Symfony",
+                    "qa77S8daOeta0RlRKNzuUiSuddkXSkZXgjyvCW94"
+                ],
+                "ms": 0.05
+            }
+        ]
+    },
+    "S5 Reseñas": {
+        "status": 200,
+        "bytes": 5562,
+        "mediana_ms": 3.8,
+        "min_ms": 3.6,
+        "consultas": 7,
+        "db_ms": 0.4,
+        "queries": [
+            {
+                "sql": "select * from \"sessions\" where \"id\" = ? limit 1",
+                "bindings": [
+                    "jw6kf393ZKqjwedidOkK2aNzj9INMz0dzu1Z7nsQ"
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"valoraciones\" where \"visible\" = ?",
+                "bindings": [
+                    true
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select * from \"valoraciones\" where \"visible\" = ? order by \"created_at\" desc limit 8 offset 0",
+                "bindings": [
+                    true
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"id\", \"nombre\" from \"locales\" where \"locales\".\"id\" in (1, 2, 4)",
+                "bindings": [],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"id\", \"name\" from \"users\" where \"users\".\"id\" in (9, 10, 11)",
+                "bindings": [],
+                "ms": 0.04
+            },
+            {
+                "sql": "select \"id\", \"nombre\" from \"locales\" where \"activo\" = ? order by \"nombre\" asc",
+                "bindings": [
+                    true
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "update \"sessions\" set \"payload\" = ?, \"last_activity\" = ?, \"user_id\" = ?, \"ip_address\" = ?, \"user_agent\" = ? where \"id\" = ?",
+                "bindings": [
+                    "eyJfdG9rZW4iOiJqWVo0dkIyOW9CdmZSQklneHRWNTVsM2Y1cTVyVm04S0hpRTNYbks3IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvcmVzZW5hcyIsInJvdXRlIjoicmVzZW5hcy5pbmRleCJ9LCJfZmxhc2giOnsib2xkIjpbXSwibmV3IjpbXX19",
+                    1795353691,
+                    null,
+                    "127.0.0.1",
+                    "Symfony",
+                    "jw6kf393ZKqjwedidOkK2aNzj9INMz0dzu1Z7nsQ"
+                ],
+                "ms": 0.06
+            }
+        ]
+    },
+    "S6 Admin: resumen (caché vacío)": {
+        "status": 200,
+        "bytes": 12124,
+        "mediana_ms": 9.4,
+        "min_ms": 8,
+        "consultas": 23,
+        "db_ms": 3.3,
+        "queries": [
+            {
+                "sql": "select * from \"sessions\" where \"id\" = ? limit 1",
+                "bindings": [
+                    "Kt53hbWkrCKhVdjiudocTeYTWqoTMLnUQ7iqNtBS"
+                ],
+                "ms": 0.1
+            },
+            {
+                "sql": "select * from \"cache\" where \"key\" in (?)",
+                "bindings": [
+                    "laravel-cache-compamenu.version"
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select * from \"cache\" where \"key\" in (?)",
+                "bindings": [
+                    "laravel-cache-compamenu.admin.resumen.v0"
+                ],
+                "ms": 0.03
+            },
+            {
+                "sql": "select estado, COUNT(*) as total from \"reservas\" group by \"estado\"",
+                "bindings": [],
+                "ms": 0.07
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"users\" where \"rol\" = ?",
+                "bindings": [
+                    "estudiante"
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"locales\"",
+                "bindings": [],
+                "ms": 0.04
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"menus\"",
+                "bindings": [],
+                "ms": 0.02
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"remates\"",
+                "bindings": [],
+                "ms": 0.02
+            },
+            {
+                "sql": "select count(*) as \"aggregate\" from \"valoraciones\"",
+                "bindings": [],
+                "ms": 0.02
+            },
+            {
+                "sql": "select avg(\"puntaje\") as \"aggregate\" from \"valoraciones\" where \"visible\" = ?",
+                "bindings": [
+                    true
+                ],
+                "ms": 0.04
+            },
+            {
+                "sql": "select DATE(created_at) as dia, COUNT(*) as total from \"reservas\" where \"created_at\" >= ? group by \"dia\"",
+                "bindings": [
+                    "2026-11-16T05:00:00.000000Z"
+                ],
+                "ms": 0.07
+            },
+            {
+                "sql": "select tipo, COUNT(*) as total from \"menus\" group by \"tipo\"",
+                "bindings": [],
+                "ms": 0.05
+            },
+            {
+                "sql": "select puntaje, COUNT(*) as total from \"valoraciones\" where \"visible\" = ? group by \"puntaje\"",
+                "bindings": [
+                    true
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"id\", \"nombre\", (select count(*) from \"reservas\" where \"locales\".\"id\" = \"reservas\".\"local_id\") as \"reservas_count\" from \"locales\" where exists (select * from \"reservas\" where \"locales\".\"id\" = \"reservas\".\"local_id\") order by \"reservas_count\" desc limit 5",
+                "bindings": [],
+                "ms": 0.1
+            },
+            {
+                "sql": "insert into \"cache\" (\"expiration\", \"key\", \"value\") values (?, ?, ?) on conflict (\"key\") do update set \"expiration\" = \"excluded\".\"expiration\", \"key\" = \"excluded\".\"key\", \"value\" = \"excluded\".\"value\"",
+                "bindings": [
+                    1795353811,
+                    "laravel-cache-compamenu.admin.resumen.v0",
+                    "a:2:{s:8:\"metricas\";a:8:{s:11:\"estudiantes\";i:4;s:16:\"establecimientos\";i:6;s:5:\"menus\";i:7;s:7:\"remates\";i:3;s:12:\"valoraciones\";i:3;s:8:\"promedio\";d:4;s:8:\"reservas\";i:0;s:10:\"pendientes\";i:0;}s:8:\"graficos\";a:5:{s:7:\"estados\";a:5:{i:0;a:4:{s:5:\"clave\";s:9:\"pendiente\";s:6:\"nombre\";s:9:\"Pendiente\";s:5:\"total\";i:0;s:5:\"color\";s:7:\"#f4b41a\";}i:1;a:4:{s:5:\"clave\";s:10:\"confirmada\";s:6:\"nombre\";s:10:\"Confirmada\";s:5:\"total\";i:0;s:5:\"color\";s:7:\"#1b9aaa\";}i:2;a:4:{s:5:\"clave\";s:10:\"completada\";s:6:\"nombre\";s:9:\"Entregada\";s:5:\"total\";i:0;s:5:\"color\";s:7:\"#2e7d4f\";}i:3;a:4:{s:5:\"clave\";s:9:\"cancelada\";s:6:\"nombre\";s:9:\"Cancelada\";s:5:\"total\";i:0;s:5:\"color\";s:7:\"#9c8a83\";}i:4;a:4:{s:5:\"clave\";s:9:\"rechazada\";s:6:\"nombre\";s:9:\"Rechazada\";s:5:\"total\";i:0;s:5:\"color\";s:7:\"#b5121b\";}}s:4:\"dias\";a:7:{i:0;a:4:{s:8:\"etiqueta\";s:3:\"Lun\";s:5:\"fecha\";s:5:\"16\/11\";s:5:\"total\";i:0;s:3:\"hoy\";b:0;}i:1;a:4:{s:8:\"etiqueta\";s:3:\"Mar\";s:5:\"fecha\";s:5:\"17\/11\";s:5:\"total\";i:0;s:3:\"hoy\";b:0;}i:2;a:4:{s:8:\"etiqueta\";s:4:\"Mié\";s:5:\"fecha\";s:5:\"18\/11\";s:5:\"total\";i:0;s:3:\"hoy\";b:0;}i:3;a:4:{s:8:\"etiqueta\";s:3:\"Jue\";s:5:\"fecha\";s:5:\"19\/11\";s:5:\"total\";i:0;s:3:\"hoy\";b:0;}i:4;a:4:{s:8:\"etiqueta\";s:3:\"Vie\";s:5:\"fecha\";s:5:\"20\/11\";s:5:\"total\";i:0;s:3:\"hoy\";b:0;}i:5;a:4:{s:8:\"etiqueta\";s:4:\"Sáb\";s:5:\"fecha\";s:5:\"21\/11\";s:5:\"total\";i:0;s:3:\"hoy\";b:0;}i:6;a:4:{s:8:\"etiqueta\";s:3:\"Dom\";s:5:\"fecha\";s:5:\"22\/11\";s:5:\"total\";i:0;s:3:\"hoy\";b:1;}}s:5:\"tipos\";a:4:{i:0;a:3:{s:6:\"nombre\";s:7:\"Criollo\";s:5:\"total\";i:3;s:5:\"color\";s:7:\"#b5121b\";}i:1;a:3:{s:6:\"nombre\";s:6:\"Andino\";s:5:\"total\";i:1;s:5:\"color\";s:7:\"#f4b41a\";}i:2;a:3:{s:6:\"nombre\";s:11:\"Vegetariano\";s:5:\"total\";i:2;s:5:\"color\";s:7:\"#2e7d4f\";}i:3;a:3:{s:6:\"nombre\";s:18:\"Alto en proteínas\";s:5:\"total\";i:1;s:5:\"color\";s:7:\"#1b9aaa\";}}s:8:\"puntajes\";a:5:{i:0;a:3:{s:6:\"nombre\";s:5:\"5 ★\";s:5:\"total\";i:1;s:5:\"color\";s:7:\"#f4b41a\";}i:1;a:3:{s:6:\"nombre\";s:5:\"4 ★\";s:5:\"total\";i:1;s:5:\"color\";s:7:\"#f4b41a\";}i:2;a:3:{s:6:\"nombre\";s:5:\"3 ★\";s:5:\"total\";i:1;s:5:\"color\";s:7:\"#f4b41a\";}i:3;a:3:{s:6:\"nombre\";s:5:\"2 ★\";s:5:\"total\";i:0;s:5:\"color\";s:7:\"#f4b41a\";}i:4;a:3:{s:6:\"nombre\";s:5:\"1 ★\";s:5:\"total\";i:0;s:5:\"color\";s:7:\"#f4b41a\";}}s:7:\"locales\";a:2:{i:0;a:3:{s:6:\"nombre\";s:12:\"Comedor Inti\";s:5:\"total\";i:1;s:5:\"color\";s:7:\"#c2185b\";}i:1;a:3:{s:6:\"nombre\";s:19:\"Pensión Doña Rosa\";s:5:\"total\";i:1;s:5:\"color\";s:7:\"#c2185b\";}}}}"
+                ],
+                "ms": 2.09
+            },
+            {
+                "sql": "select * from \"reservas\" order by \"created_at\" desc limit 5",
+                "bindings": [],
+                "ms": 0.1
+            },
+            {
+                "sql": "select \"id\", \"name\" from \"users\" where \"users\".\"id\" in (8)",
+                "bindings": [],
+                "ms": 0.06
+            },
+            {
+                "sql": "select \"id\", \"nombre\" from \"menus\" where \"menus\".\"id\" in (2, 7)",
+                "bindings": [],
+                "ms": 0.08
+            },
+            {
+                "sql": "select \"id\", \"nombre\" from \"locales\" where \"locales\".\"id\" in (1, 2)",
+                "bindings": [],
+                "ms": 0.05
+            },
+            {
+                "sql": "select * from \"valoraciones\" order by \"created_at\" desc limit 5",
+                "bindings": [],
+                "ms": 0.06
+            },
+            {
+                "sql": "select \"id\", \"name\" from \"users\" where \"users\".\"id\" in (9, 10, 11)",
+                "bindings": [],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"id\", \"nombre\" from \"locales\" where \"locales\".\"id\" in (1, 2, 4)",
+                "bindings": [],
+                "ms": 0.04
+            },
+            {
+                "sql": "update \"sessions\" set \"payload\" = ?, \"last_activity\" = ?, \"user_id\" = ?, \"ip_address\" = ?, \"user_agent\" = ? where \"id\" = ?",
+                "bindings": [
+                    "eyJfdG9rZW4iOiJqWVo0dkIyOW9CdmZSQklneHRWNTVsM2Y1cTVyVm04S0hpRTNYbks3IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvYWRtaW4iLCJyb3V0ZSI6ImFkbWluLnJlc3VtZW4ifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==",
+                    1795353691,
+                    1,
+                    "127.0.0.1",
+                    "Symfony",
+                    "Kt53hbWkrCKhVdjiudocTeYTWqoTMLnUQ7iqNtBS"
+                ],
+                "ms": 0.07
+            }
+        ]
+    },
+    "S7 Admin: resumen (caché lleno)": {
+        "status": 200,
+        "bytes": 12124,
+        "mediana_ms": 4.5,
+        "min_ms": 4.1,
+        "consultas": 11,
+        "db_ms": 0.5,
+        "queries": [
+            {
+                "sql": "select * from \"sessions\" where \"id\" = ? limit 1",
+                "bindings": [
+                    "asrQbAweRnsLxrPji6Tw3KHBV6l9uIgNyaZEd7qT"
+                ],
+                "ms": 0.05
+            },
+            {
+                "sql": "select * from \"cache\" where \"key\" in (?)",
+                "bindings": [
+                    "laravel-cache-compamenu.version"
+                ],
+                "ms": 0.04
+            },
+            {
+                "sql": "select * from \"cache\" where \"key\" in (?)",
+                "bindings": [
+                    "laravel-cache-compamenu.admin.resumen.v0"
+                ],
+                "ms": 0.03
+            },
+            {
+                "sql": "select * from \"reservas\" order by \"created_at\" desc limit 5",
+                "bindings": [],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"id\", \"name\" from \"users\" where \"users\".\"id\" in (8)",
+                "bindings": [],
+                "ms": 0.03
+            },
+            {
+                "sql": "select \"id\", \"nombre\" from \"menus\" where \"menus\".\"id\" in (2, 7)",
+                "bindings": [],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"id\", \"nombre\" from \"locales\" where \"locales\".\"id\" in (1, 2)",
+                "bindings": [],
+                "ms": 0.04
+            },
+            {
+                "sql": "select * from \"valoraciones\" order by \"created_at\" desc limit 5",
+                "bindings": [],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"id\", \"name\" from \"users\" where \"users\".\"id\" in (9, 10, 11)",
+                "bindings": [],
+                "ms": 0.05
+            },
+            {
+                "sql": "select \"id\", \"nombre\" from \"locales\" where \"locales\".\"id\" in (1, 2, 4)",
+                "bindings": [],
+                "ms": 0.04
+            },
+            {
+                "sql": "update \"sessions\" set \"payload\" = ?, \"last_activity\" = ?, \"user_id\" = ?, \"ip_address\" = ?, \"user_agent\" = ? where \"id\" = ?",
+                "bindings": [
+                    "eyJfdG9rZW4iOiJqWVo0dkIyOW9CdmZSQklneHRWNTVsM2Y1cTVyVm04S0hpRTNYbks3IiwiX3ByZXZpb3VzIjp7InVybCI6Imh0dHA6XC9cL2xvY2FsaG9zdFwvYWRtaW4iLCJyb3V0ZSI6ImFkbWluLnJlc3VtZW4ifSwiX2ZsYXNoIjp7Im9sZCI6W10sIm5ldyI6W119fQ==",
+                    1795353691,
+                    1,
+                    "127.0.0.1",
+                    "Symfony",
+                    "asrQbAweRnsLxrPji6Tw3KHBV6l9uIgNyaZEd7qT"
+                ],
+                "ms": 0.09
+            }
+        ]
+    }
+}
