@@ -1,0 +1,59 @@
+-e 
+=== T1 SQLi en el formulario de ingreso: email = admin@compamenu.pe' OR '1'='1  /  clave = ' OR 1=1 -- ===
+HTTP 302 -> http://127.0.0.1:8099/ingresar
+Correo
+correo debe ser un correo válido.
+-e 
+=== T1b SQLi con correo de formato válido: email = admin@compamenu.pe / clave = ' OR 1=1 -- ===
+HTTP 302 -> http://127.0.0.1:8099/ingresar
+-e 
+=== T2 CSRF: POST /ingresar sin token ===
+HTTP 419
+-e 
+=== T3 Campos vacíos en el registro ===
+HTTP 302 -> http://127.0.0.1:8099/registro
+ingresar">Ingresar
+ingresar">Ingresa
+-e 
+=== T3b Registro con clave débil (1234) y correo inválido ===
+HTTP 302 -> http://127.0.0.1:8099/registro
+correo"     class="form-control invalido" autocomplete="email" required="required">
+correo debe ser un correo válido.
+caracteres, con letras y números.
+contraseña debe tener al menos 8 caracteres.
+-e 
+=== T4 XSS almacenado: reseña con <script>alert('XSS')</script>Muy rico ===
+login estudiante: HTTP 302 -> http://127.0.0.1:8099/
+POST /resenas: HTTP 302 -> http://127.0.0.1:8099/resenas?local=1
+Valor guardado en la BD:
+alert('XSS')Muy rico y barato
+¿La página /resenas contiene '<script>alert'? -> 0
+-e 
+=== T5 XSS reflejado: GET /?q=<script>alert(1)</script> ===
+Apariciones de <script>alert(1) sin escapar: 0
+-e 
+=== T6 Control de acceso: estudiante entra a /admin ===
+HTTP 403
+-e 
+=== T7 Cabeceras de seguridad (curl -I /) ===
+HTTP/1.1 200 OK
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: camera=(), microphone=(), geolocation=()
+-e 
+=== T8 Fuerza bruta: 6 intentos seguidos con el mismo correo ===
+intento 1: HTTP 302
+intento 2: HTTP 302
+intento 3: HTTP 302
+intento 4: HTTP 302
+intento 5: HTTP 302
+intento 6: HTTP 302
+Demasiados intentos. Vuelve a intentarlo en 59 segundos.
+-e 
+=== T9 Hash de contraseñas en la BD ===
+admin@compamenu.pe	$2y$12$	60
+lucia@compamenu.pe	$2y$12$	60
+-e 
+=== T10 Error seguro: ruta inexistente con APP_DEBUG=false ===
+HTTP 404
